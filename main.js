@@ -1,3 +1,4 @@
+var prediction_1="";
 Webcam.set({
     width:350,
     height:350,
@@ -20,4 +21,48 @@ function take_snapshot()
 
 console.log("ml5 version",ml5.version);
 
-classifier=ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/hfYEWZ7-m/model.json");
+classifier=ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/hfYEWZ7-m/model.json",modelLoaded);
+
+function modelLoaded() {
+    console.log('Model Loaded!');
+  }
+
+  function check()
+  {
+    img = document.getElementById('captured_image');
+    classifier.classify(img, gotResult);
+  }
+
+
+function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(results);
+    document.getElementById("result_emotion_name").innerHTML = results[0].label;
+    prediction_1 = results[0].label;
+        
+    if(results[0].label == "Victory")
+    {
+	    document.getElementById("update_emoji").innerHTML = "&#9996;";
+    }
+    if(results[0].label == "Good")
+    {
+	    document.getElementById("update_emoji").innerHTML = "&#128077;";
+    }
+    if(results[0].label == "Bad")
+    {
+	    document.getElementById("update_emoji").innerHTML = "&#128078;";
+    }
+
+    if(results[0].label == "Hi")
+    {
+	    document.getElementById("update_emoji2").innerHTML = "&#128400;";
+    }
+    if(results[0].label == "Nice")
+    {
+	    document.getElementById("update_emoji2").innerHTML = "&#128076;";
+    }
+   
+  }
+}
